@@ -125,7 +125,6 @@ exports.getAllReservations = getAllReservations;
  * @return {Promise<[{}]>}  A promise to the properties.
  */
 const getAllProperties = function (options, limit = 10) {
-  console.log('options:', options);
 
   const queryParams = [];
 
@@ -135,16 +134,10 @@ const getAllProperties = function (options, limit = 10) {
   JOIN property_reviews ON properties.id = property_id
   `;
 
-
   if (options.city) {
     queryParams.push(`%${options.city}%`);
     queryString += `WHERE city LIKE $${queryParams.length} `;
   }
-
-
-
-
-
 
   if (options.owner_id) {
     queryParams.push(`${options.owner_id}`);
@@ -184,16 +177,12 @@ const getAllProperties = function (options, limit = 10) {
     }
   }
 
-
-
-
   queryParams.push(limit);
   queryString += `
   GROUP BY properties.id
   ORDER BY cost_per_night
   LIMIT $${queryParams.length};
   `;
-
 
   console.log(queryString, queryParams);
 
